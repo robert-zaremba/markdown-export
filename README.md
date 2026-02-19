@@ -6,6 +6,7 @@ Instead of relying on external command-line tools like Pandoc, these tools Base6
 
 - **markdown-export.el** — Emacs package
 - **md2html.js** — Node.js CLI script
+- **markdown-export.lua** — Neovim Lua module
 
 ## Features
 
@@ -63,9 +64,63 @@ Then in your config.el:
   :config
   (map! :map markdown-mode-map
         :localleader
-        (:prefix ("c" . "compile/export")
-         :desc "Export HTML w/ Mermaid"          "m" #'markdown-export-with-mermaid
-         :desc "Export HTML w/ Mermaid & Open"   "o" #'markdown-export-with-mermaid-and-open)))
+         (:prefix ("c" . "compile/export")
+          :desc "Export HTML w/ Mermaid"          "m" #'markdown-export-with-mermaid
+          :desc "Export HTML w/ Mermaid & Open"   "o" #'markdown-export-with-mermaid-and-open)))
+```
+
+### Neovim (lazy.nvim)
+
+Add to your lazy.nvim plugin specification:
+
+```lua
+{
+  "robert-zaremba/markdown-export",
+  config = function()
+    require('markdown-export').setup()
+  end,
+  ft = "markdown",
+}
+```
+
+With keybindings:
+
+```lua
+{
+  "robert-zaremba/markdown-export",
+  config = function()
+    require('markdown-export').setup()
+    vim.keymap.set('n', '<leader>me', ':MarkdownExportWithMermaid<CR>', { desc = 'Export Markdown to HTML' })
+    vim.keymap.set('n', '<leader>mo', ':MarkdownExportWithMermaidAndOpen<CR>', { desc = 'Export Markdown and open' })
+  end,
+  ft = "markdown",
+}
+```
+
+### Neovim (packer.nvim)
+
+```lua
+use 'robert-zaremba/markdown-export'
+```
+
+### Neovim (vim-plug)
+
+```vim
+Plug 'robert-zaremba/markdown-export'
+```
+
+### Neovim (Manual)
+
+Clone the repository to your Neovim config directory:
+
+```bash
+git clone https://github.com/robert-zaremba/markdown-export.git ~/.config/nvim/lua/markdown-export
+```
+
+Then add to your `init.lua`:
+
+```lua
+require('markdown-export').setup()
 ```
 
 ## Usage
@@ -85,3 +140,11 @@ While in any markdown-mode buffer:
 
 * Run `M-x markdown-export-with-mermaid` to silently compile the file.
 * Run `M-x markdown-export-with-mermaid-and-open` to compile the file and immediately view it in your default web browser.
+
+### Neovim
+
+While editing a markdown file:
+
+* Run `:MarkdownExportWithMermaid` to export the file to HTML.
+* Run `:MarkdownExportWithMermaidAndOpen` to export and open in your default browser.
+* Or use the keybindings defined in your config (e.g., `<leader>me` or `<leader>mo`).
