@@ -1,8 +1,11 @@
-# markdown-export.el
+# markdown-export
 
-A zero-dependency Emacs package to export Markdown files to beautifully styled, standalone HTML files.
+Zero-dependency tools to export Markdown files to beautifully styled, standalone HTML files.
 
-Instead of relying on external command-line tools like Pandoc, this package Base64-encodes your Markdown and wraps it in a self-rendering HTML template. This ensures perfect portability—you can email the generated HTML file, and it will render perfectly in any modern browser.
+Instead of relying on external command-line tools like Pandoc, these tools Base64-encode your Markdown and wrap it in a self-rendering HTML template. This ensures perfect portability—you can email the generated HTML file, and it will render perfectly in any modern browser.
+
+- **markdown-export.el** — Emacs package
+- **md2html.js** — Node.js CLI script
 
 ## Features
 
@@ -28,23 +31,29 @@ authors:
 
 ## Installation
 
-### Standard Emacs (use-package + straight.el / quelpa)
+### Node.js
+
+No installation required — just run the script directly with Node or Bun (see usage section).
+
+### Emacs (use-package + straight.el / quelpa)
 
 ``` emacs-lisp
 (use-package markdown-export
-  :straight (markdown-export :type git :host github :repo "yourusername/markdown-export")
+  :straight (markdown-export :type git :host github :repo "robert-zaremba/markdown-export")
   :after markdown-mode
   :bind (:map markdown-mode-map
          ("C-c C-e m" . markdown-export-with-mermaid)
          ("C-c C-e o" . markdown-export-with-mermaid-and-open)))
 ```
 
-### Doom Emacs
+### Emacs - Doom
 
 Add the following to your `packages.el`:
+
 ```elisp
 (package! markdown-export
   :recipe (:host github :repo "robert-zaremba/markdown-export"))
+```
 
 Then in your config.el:
 
@@ -60,6 +69,17 @@ Then in your config.el:
 ```
 
 ## Usage
+
+### Bun or Node.js
+
+Note: use `node` if you prefer it over `bun`
+
+```bash
+bun md2html.js document.md              # Creates document.html
+bun md2html.js file1.md file2.md ...    # Process multiple files
+```
+
+### Emacs
 
 While in any markdown-mode buffer:
 
