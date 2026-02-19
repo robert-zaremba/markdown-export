@@ -57,6 +57,13 @@ function greet(name) {
 console.log(greet('World'));
 ```
 
+```go
+func HelloWorld(msg string) {
+    fmt.Println(msg, "  1+2=", 1+2)
+}
+```
+
+
 ## Conclusion
 
 This converter produces standalone HTML files that render perfectly in any modern browser.

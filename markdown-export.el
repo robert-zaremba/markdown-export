@@ -35,6 +35,7 @@ Returns the file path of the generated HTML file."
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>%s</title>
     <link id=\"markdown-css\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-light.min.css\">
+    <link id=\"highlight-css\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css\">
     <style>
         body { margin: 0; transition: background-color 0.3s ease; }
         .markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; padding-top: 60px; }
@@ -64,16 +65,28 @@ Returns the file path of the generated HTML file."
 
     <script type=\"module\">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        import hljs from 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/highlight.min.js';
 
         let isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         const themeToggleBtn = document.getElementById('theme-toggle');
         const markdownCss = document.getElementById('markdown-css');
+        const highlightCss = document.getElementById('highlight-css');
 
-        if (isDarkMode) {
-            markdownCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-dark.min.css';
-            document.body.classList.add('dark-mode');
-            themeToggleBtn.textContent = 'Switch to Light Theme';
+        function updateThemeStyles() {
+            if (isDarkMode) {
+                markdownCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-dark.min.css';
+                highlightCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+                document.body.classList.add('dark-mode');
+                themeToggleBtn.textContent = 'Switch to Light Theme';
+            } else {
+                markdownCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-light.min.css';
+                highlightCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+                document.body.classList.remove('dark-mode');
+                themeToggleBtn.textContent = 'Switch to Dark Theme';
+            }
         }
+
+        updateThemeStyles();
 
         const base64Markdown = \"%s\";
         const binString = atob(base64Markdown);
@@ -126,6 +139,7 @@ Returns the file path of the generated HTML file."
         // Render remaining Markdown and prepend the generated Header
         document.getElementById('content').innerHTML = headerHtml + marked.parse(rawMarkdown);
 
+        // Process Mermaid blocks first (remove them before highlighting)
         document.querySelectorAll('code.language-mermaid').forEach((block) => {
             const pre = block.parentElement;
             const div = document.createElement('div');
@@ -134,6 +148,9 @@ Returns the file path of the generated HTML file."
             div.textContent = block.textContent;
             pre.replaceWith(div);
         });
+
+        // Apply syntax highlighting to remaining code blocks
+        hljs.highlightAll();
 
         async function renderMermaid() {
             mermaid.initialize({ startOnLoad: false, theme: isDarkMode ? 'dark' : 'default' });
@@ -149,15 +166,7 @@ Returns the file path of the generated HTML file."
 
         themeToggleBtn.addEventListener('click', async () => {
             isDarkMode = !isDarkMode;
-            if (isDarkMode) {
-                markdownCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-dark.min.css';
-                document.body.classList.add('dark-mode');
-                themeToggleBtn.textContent = 'Switch to Light Theme';
-            } else {
-                markdownCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-light.min.css';
-                document.body.classList.remove('dark-mode');
-                themeToggleBtn.textContent = 'Switch to Dark Theme';
-            }
+            updateThemeStyles();
             await renderMermaid();
         });
     </script>
