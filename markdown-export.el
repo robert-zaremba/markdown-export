@@ -4,10 +4,12 @@
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "27.1") (markdown-mode "2.0"))
 ;; Keywords: markdown, convenience
+;; URL: https://github.com/robert-zaremba/markdown-export
 
 ;;; Commentary:
-;; Provides `markdown-export-html-with-mermaid` to export the current
-;; markdown buffer to an HTML file that renders Mermaid diagrams.
+;; Provides `markdown-export-with-mermaid` and `markdown-export-with-mermaid-and-open`
+;; to export the current markdown buffer to a standalone HTML file.
+;; Supports Mermaid diagrams, YAML Frontmatter, and includes a dark/light theme toggle.
 
 ;;; Code:
 

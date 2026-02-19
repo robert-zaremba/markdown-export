@@ -15,3 +15,6 @@ dist/
 
 # Undo-tree save-files
 *.~undo-tree
+
+# HTML files generated during local testing
+*.html
