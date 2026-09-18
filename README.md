@@ -1,3 +1,5 @@
+> **Archived. Use https://github.com/robert-zaremba/markdup2html**
+
 # markdown-export
 
 Zero-dependency tools to export Markdown files to beautifully styled, standalone HTML files.
