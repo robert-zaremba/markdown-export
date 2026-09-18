@@ -1,4 +1,4 @@
-> **Archived. Use https://github.com/robert-zaremba/markdup2html**
+> **Archived. Use https://github.com/robert-zaremba/markup2html**
 
 # markdown-export
 
